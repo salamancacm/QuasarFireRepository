@@ -2,56 +2,53 @@ package com.rebel.quasarfireoperation.controller;
 
 import com.rebel.quasarfireoperation.exception.InexistentSatelliteException;
 import com.rebel.quasarfireoperation.exception.InsufficientInformationException;
-import com.rebel.quasarfireoperation.exception.LocationException;
-import com.rebel.quasarfireoperation.exception.MessageException;
+import com.rebel.quasarfireoperation.exception.CoordinateException;
 import com.rebel.quasarfireoperation.model.CargoShip;
 import com.rebel.quasarfireoperation.model.Satellite;
-import com.rebel.quasarfireoperation.model.SatelliteWrapper;
-import com.rebel.quasarfireoperation.services.IntelligenceService;
+import com.rebel.quasarfireoperation.model.SatelliteRequest;
+import com.rebel.quasarfireoperation.services.DecipherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(path = "/api")
 public class RebelCommunicationController {
 
     @Autowired
-    private IntelligenceService intelligenceService;
+    private DecipherService decipherService;
 
     @PostMapping("/topsecret")
-    public ResponseEntity<CargoShip> topSecret(@RequestBody SatelliteWrapper satelliteWrapper) {
+    public ResponseEntity<CargoShip> topSecret(@RequestBody SatelliteRequest satelliteRequest) {
         try {
-            return ResponseEntity.ok(intelligenceService.getCargoShip(satelliteWrapper));
-        } catch (MessageException | LocationException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+            return ResponseEntity.ok(decipherService.getCargoShip(satelliteRequest));
+        } catch (CoordinateException | InsufficientInformationException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/topsecret_split/{satelliteName}")
     public ResponseEntity<Void> topSecretSplit(@RequestBody Satellite satellite, @PathVariable String satelliteName) {
         try {
-            intelligenceService.retreiveMessageFromSatellite(satellite, satelliteName);
+            decipherService.retreiveMessageFromSatellite(satellite, satelliteName);
             return ResponseEntity.ok().build();
         } catch (InexistentSatelliteException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/topsecret_split")
     public ResponseEntity<CargoShip> getCargoLocation() {
         try {
-            return ResponseEntity.ok(intelligenceService.getCargoShipFromSplitSatellites());
-        } catch (MessageException | LocationException | InsufficientInformationException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+            return ResponseEntity.ok(decipherService.getCargoShipFromSplitSatellites());
+        } catch (CoordinateException | InsufficientInformationException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/topsecret_split/clear")
     public ResponseEntity<Void> clearCargoHistory() {
-        intelligenceService.clearCargoHistory();
+        decipherService.clearCargoHistory();
         return ResponseEntity.ok().build();
     }
 }

@@ -1,10 +1,11 @@
 package com.rebel.quasarfireoperation;
 
-import com.rebel.quasarfireoperation.exception.MessageException;
-import com.rebel.quasarfireoperation.services.LocationService;
-import com.rebel.quasarfireoperation.services.MessageService;
+import com.rebel.quasarfireoperation.exception.InsufficientInformationException;
+import com.rebel.quasarfireoperation.model.Satellite;
+import com.rebel.quasarfireoperation.model.SatelliteRequest;
+import com.rebel.quasarfireoperation.utils.AppUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -17,51 +18,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class QuasarFireOperationApplicationTests {
 
-    @Autowired
-    private MessageService messageService;
-
-    @Autowired
-    private LocationService locationService;
-
     @Test
-    public void message_3_satellites_return_message() throws MessageException {
-        List<List<String>> messages = new ArrayList<>();
-        String[] m1 = {"this", "", "", "secret", ""};
-        String[] m2 = {"", "is", "", "", "message"};
-        String[] m3 = {"", "", "a", "", ""};
-        messages.add(Arrays.stream(m1).collect(Collectors.toList()));
-        messages.add(Arrays.stream(m2).collect(Collectors.toList()));
-        messages.add(Arrays.stream(m3).collect(Collectors.toList()));
-        String message = messageService.getMessage(messages);
-        String expectedMsg = "this is a secret message";
-        assertEquals(message, expectedMsg);
+    public void message_3_satellites_return_message() throws InsufficientInformationException {
+        List<List<String>> messageList = new ArrayList<>();
+        messageList.add(Arrays.stream(new String[]{"this", "", "", "secret", ""}).collect(Collectors.toList()));
+        messageList.add(Arrays.stream(new String[]{"", "is", "", "", "message"}).collect(Collectors.toList()));
+        messageList.add((Arrays.stream(new String[]{"", "", "a", "", ""}).collect(Collectors.toList())));
+        AppUtils.getMessage(messageList);
+        String actual = AppUtils.getMessage(messageList);
+        String expected = "this is a secret message";
+        assertEquals(expected, actual);
     }
 
     @Test
     public void message_3_satellites_error() {
-        List<List<String>> messages = new ArrayList<>();
-        String[] m1 = {"this", "", "", "secret", ""};
-        String[] m2 = {"", "is", "", "", "message"};
-        String[] m3 = {"this", "", "a", "", "", ""};
-        messages.add(Arrays.stream(m1).collect(Collectors.toList()));
-        messages.add(Arrays.stream(m2).collect(Collectors.toList()));
-        messages.add(Arrays.stream(m3).collect(Collectors.toList()));
-        try {
-            String message = messageService.getMessage(messages);
-        } catch (MessageException e) {
-            assertEquals("Can't determine message content", e.getMessage());
-        }
+        List<List<String>> messageList = new ArrayList<>();
+        messageList.add(Arrays.stream(new String[]{"", "", "", "", ""}).collect(Collectors.toList()));
+        messageList.add(Arrays.stream(new String[]{"", "", "", "", ""}).collect(Collectors.toList()));
+        messageList.add((Arrays.stream(new String[]{"", "", "a", "", ""}).collect(Collectors.toList())));
+
+        InsufficientInformationException exception = Assertions.assertThrows(InsufficientInformationException.class, () -> {
+            AppUtils.getMessage(messageList);
+        });
+
+        String expected = "Message size is incorrect";
+        assertEquals(expected, exception.getMessage());
     }
 
     @Test
-    public void location_3_positions() throws Exception {
-        double[][] positions = new double[][]{{-500.0, -200.0}, {100.0, -100.0}, {500.0, 100.0}};
-        double[] distances = new double[]{100.0, 115.5, 142.7};
-        double[] expectedPosition = new double[]{-58.315252587138595, -69.55141837312165};
-        double[] calculatedPosition = locationService.triangulateLocation(positions, distances);
-        for (int i = 0; i < calculatedPosition.length; i++) {
-            assertEquals(expectedPosition[i], calculatedPosition[i]);
-        }
+    public void location_3_positions() {
+        double[][] positions = new double[][]{{500.0, -200.0}, {100.0, -100.0}, {500.0, 100.0}};
+        double[] distances = new double[]{200.0, 112.5, 90.7};
+        double[] expected = new double[]{326.26878226364704, -10.078218058371585};
+        double[] actual = AppUtils.triangulateLocation(positions, distances);
+        assertEquals(expected[0], actual[0]);
+        assertEquals(expected[1], actual[1]);
     }
 
 }
