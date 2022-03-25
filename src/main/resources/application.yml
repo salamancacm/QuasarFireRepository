@@ -1,0 +1,16 @@
+rebel:
+  #names: skywalker,kenobi,sato
+  #kenobi: 500.0,-200.0
+  #skywalker: 100.0,-100.0
+  #sato: 500.0,100.0
+  satellites:
+    kenobi:
+      position: 500.0,-200.0
+    skywalker:
+      position: 100.0,-100.0
+    sato:
+      position: 500.0,100.0
+
+server:
+  error:
+    include-message: always
