@@ -3,7 +3,6 @@ package com.rebel.quasarfireoperation.services;
 import com.rebel.quasarfireoperation.config.SatelliteConfigProps;
 import com.rebel.quasarfireoperation.exception.InexistentSatelliteException;
 import com.rebel.quasarfireoperation.exception.InsufficientInformationException;
-import com.rebel.quasarfireoperation.exception.CoordinateException;
 import com.rebel.quasarfireoperation.model.CargoShip;
 import com.rebel.quasarfireoperation.model.Position;
 import com.rebel.quasarfireoperation.model.Satellite;
@@ -24,7 +23,7 @@ public class DecipherService {
     @Autowired
     private SatelliteConfigProps satelliteConfigProps;
 
-    public CargoShip getCargoShip(SatelliteRequest satelliteRequest) throws InsufficientInformationException, CoordinateException {
+    public CargoShip getCargoShip(SatelliteRequest satelliteRequest) throws InsufficientInformationException {
         int posizionSize = satelliteConfigProps.getSatellites()
                 .values().stream().findFirst()
                 .get()
@@ -79,7 +78,7 @@ public class DecipherService {
         }
     }
 
-    public CargoShip getCargoShipFromSplitSatellites() throws CoordinateException, InsufficientInformationException {
+    public CargoShip getCargoShipFromSplitSatellites() throws InsufficientInformationException {
         if (splitSatelliteRequest.getSatellites() == null || splitSatelliteRequest.getSatellites().size() > 3) {
             throw new InsufficientInformationException("Current data is insufficient to determine message and location");
         }

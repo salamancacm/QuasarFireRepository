@@ -2,7 +2,6 @@ package com.rebel.quasarfireoperation.controller;
 
 import com.rebel.quasarfireoperation.exception.InexistentSatelliteException;
 import com.rebel.quasarfireoperation.exception.InsufficientInformationException;
-import com.rebel.quasarfireoperation.exception.CoordinateException;
 import com.rebel.quasarfireoperation.model.CargoShip;
 import com.rebel.quasarfireoperation.model.Satellite;
 import com.rebel.quasarfireoperation.model.SatelliteRequest;
@@ -22,7 +21,7 @@ public class RebelCommunicationController {
     public ResponseEntity<CargoShip> topSecret(@RequestBody SatelliteRequest satelliteRequest) {
         try {
             return ResponseEntity.ok(decipherService.getCargoShip(satelliteRequest));
-        } catch (CoordinateException | InsufficientInformationException e) {
+        } catch (InsufficientInformationException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -41,7 +40,7 @@ public class RebelCommunicationController {
     public ResponseEntity<CargoShip> getCargoLocation() {
         try {
             return ResponseEntity.ok(decipherService.getCargoShipFromSplitSatellites());
-        } catch (CoordinateException | InsufficientInformationException e) {
+        } catch (InsufficientInformationException e) {
             return ResponseEntity.notFound().build();
         }
     }
