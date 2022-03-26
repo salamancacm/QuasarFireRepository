@@ -40,7 +40,7 @@ public class DecipherService {
         );
 
         if (AppUtils.extractMessagesFromSatellites(satelliteRequest).size() < 2 || (positions.length < 2 || distances.length < 2)) {
-            throw new InsufficientInformationException("Message number is insufficient");
+            throw new InsufficientInformationException("Message size is incorrect");
         }
 
         double[] cargoCoordinates = AppUtils.triangulateLocation(positions, distances);

@@ -21,12 +21,12 @@ class QuasarFireOperationApplicationTests {
     @Test
     public void message_3_satellites_return_message() throws InsufficientInformationException {
         List<List<String>> messageList = new ArrayList<>();
-        messageList.add(Arrays.stream(new String[]{"this", "", "", "secret", ""}).collect(Collectors.toList()));
-        messageList.add(Arrays.stream(new String[]{"", "is", "", "", "message"}).collect(Collectors.toList()));
-        messageList.add((Arrays.stream(new String[]{"", "", "a", "", ""}).collect(Collectors.toList())));
+        messageList.add(Arrays.stream(new String[]{"este", "", "", "secreto", ""}).collect(Collectors.toList()));
+        messageList.add(Arrays.stream(new String[]{"", "es", "", "", "mensaje"}).collect(Collectors.toList()));
+        messageList.add((Arrays.stream(new String[]{"", "", "un", "", ""}).collect(Collectors.toList())));
         AppUtils.getMessage(messageList);
         String actual = AppUtils.getMessage(messageList);
-        String expected = "this is a secret message";
+        String expected = "este es un mensaje secreto";
         assertEquals(expected, actual);
     }
 
@@ -35,7 +35,7 @@ class QuasarFireOperationApplicationTests {
         List<List<String>> messageList = new ArrayList<>();
         messageList.add(Arrays.stream(new String[]{"", "", "", "", ""}).collect(Collectors.toList()));
         messageList.add(Arrays.stream(new String[]{"", "", "", "", ""}).collect(Collectors.toList()));
-        messageList.add((Arrays.stream(new String[]{"", "", "a", "", ""}).collect(Collectors.toList())));
+        messageList.add((Arrays.stream(new String[]{"", "", "un", "", ""}).collect(Collectors.toList())));
 
         InsufficientInformationException exception = Assertions.assertThrows(InsufficientInformationException.class, () -> {
             AppUtils.getMessage(messageList);
