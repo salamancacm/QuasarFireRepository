@@ -116,6 +116,6 @@ en el branch [main] del repositorio,
 pero también se puede implementar manualmente con 
 el botón "Deploy Branch":
 
-![](C:\Users\salam\Downloads\111.jpg)
+<img src="https://github.com/salamancacm/QuasarFireRepository/blob/main/img/HerokuView.jpg" alt="Heroku View">
 
 
