@@ -11,7 +11,7 @@ import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer
 import java.util.*;
 
 public class AppUtils {
-
+    //Metodo para obtener distancias
     public static double[] getDistances(SatelliteRequest satelliteRequest) {
         double[] distanceArray = new double[satelliteRequest.getSatellites().size()];
         int i = 0;
@@ -22,7 +22,7 @@ public class AppUtils {
         }
         return distanceArray;
     }
-
+    //Metodo para obtener posiciones
     public static double[][] getPositions(SatelliteRequest satelliteRequest, int positionSize) {
         List<Satellite> satellites = satelliteRequest.getSatellites();
         double[][] positions = new double[satellites.size()][positionSize];
@@ -35,7 +35,7 @@ public class AppUtils {
         }
         return positions;
     }
-
+    //Metodo para setear posiciones
     public static void setPositions(double[][] pointsList, SatelliteRequest satelliteRequest) {
         Position position;
         for (int i = 0; i < pointsList.length; i++) {
@@ -43,7 +43,7 @@ public class AppUtils {
             satelliteRequest.getSatellites().get(i).setPosition(position);
         }
     }
-
+    //Metodo para extraer mensaje del satelite
     public static List<List<String>> extractMessagesFromSatellites(SatelliteRequest satelliteRequest) {
         List<List<String>> messages = new ArrayList<>();
         for (Satellite s : satelliteRequest.getSatellites()) {
@@ -51,7 +51,7 @@ public class AppUtils {
         }
         return messages;
     }
-
+    //Metodo para obtener palabras unicas
     private static List<String> getUniqueWords(List<List<String>> messageList) {
         Set<String> wordSet = new HashSet<>();
         messageList.forEach(message -> message.forEach(word -> {
@@ -61,7 +61,7 @@ public class AppUtils {
         }));
         return new ArrayList<>(wordSet);
     }
-
+    //Metodo para obtener mensaje completo
     private static String getCompleteMessage(List<List<String>> messageList) {
 
         String[] phraseArray = new String[messageList.get(0).size()];
@@ -82,7 +82,7 @@ public class AppUtils {
 
         return sb.toString();
     }
-
+    //Metodo para obtener mensaje
     public static String getMessage(List<List<String>> msgList) throws InsufficientInformationException {
         List<String> messagePhraseList = getUniqueWords(msgList);
 
@@ -92,7 +92,7 @@ public class AppUtils {
 
         return getCompleteMessage(msgList);
     }
-
+    //Metodo para validar tamaño del mensaje
     private static boolean isMessageListSizeValid(List<List<String>> messageList, int size) {
         boolean isValid = true;
         for (List<String> message : messageList) {
@@ -104,7 +104,7 @@ public class AppUtils {
 
         return isValid;
     }
-
+    //Metodo para triangular la localizacion de la nave
     public static double[] triangulateLocation(double[][] positions, double[] distances) {
         TrilaterationFunction trilaterationFunction = new TrilaterationFunction(positions, distances);
         NonLinearLeastSquaresSolver nSolver = new NonLinearLeastSquaresSolver(trilaterationFunction, new LevenbergMarquardtOptimizer());

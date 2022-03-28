@@ -23,6 +23,7 @@ public class DecipherService {
     @Autowired
     private SatelliteConfigProps satelliteConfigProps;
 
+    //Metodo para obtener info de la nave
     public CargoShip getCargoShip(SatelliteRequest satelliteRequest) throws InsufficientInformationException {
         int posizionSize = satelliteConfigProps.getSatellites()
                 .values().stream().findFirst()
@@ -50,6 +51,7 @@ public class DecipherService {
         );
     }
 
+    //Metodo para obtener mensaje del satelite
     public void retreiveMessageFromSatellite(Satellite satelliteRequest, String satelliteName) throws InexistentSatelliteException {
         if (satelliteConfigProps.getSatellites().get(satelliteName) == null) {
             throw new InexistentSatelliteException("Satellite name " + satelliteName + " does not exist in our system");
@@ -85,10 +87,12 @@ public class DecipherService {
         return getCargoShip(splitSatelliteRequest);
     }
 
+    //Metodo para limpiar info de naves
     public void clearCargoHistory() {
         splitSatelliteRequest = new SatelliteRequest();
     }
 
+    //Metodo para setear posiciones de satelites
     private void setPositions(SatelliteRequest satelliteRequest, int positionSize) {
         Map<String, SatelliteConfigProps.SatelliteCoordinates> satelliteMap = buildSatelliteList();
 
@@ -106,7 +110,7 @@ public class DecipherService {
         AppUtils.setPositions(pointsList, satelliteRequest);
     }
 
-
+    //Metodo para obtener listado de satelites
     private Map<String, SatelliteConfigProps.SatelliteCoordinates> buildSatelliteList() {
         return satelliteConfigProps.getSatellites();
     }
