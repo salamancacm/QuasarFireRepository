@@ -122,11 +122,22 @@ triangulación, el proyecto utiliza una biblioteca
 externa com.lemmingapex.trilateration importada desde maven
 así como también org.apache.commons.commons-math3
 
-### Despliegue
+* #### /Test
+Contiene los test unitarios del proyecto, a continuación 
+una captura de pantalla del porcentaje de cubrimiento
+de los mismos:
+
+<img src="https://github.com/salamancacm/QuasarFireRepository/blob/main/img/CoverageTests.png" alt="Coverage Report">
+
+
+### Despliegue Online
 Para desplegar la aplicación he utilizado el plan de 
 alojamiento gratuito de Heroku. Después de crear un 
 nuevo proyecto llamado quasar-fire-operation-app 
 conecté el proyecto a este repositorio de github.
+
+El link público para probar la aplicación es el siguiente:
+https://quasar-fire-operation-app.herokuapp.com
 
 Heroku implementará y actualizará automáticamente la 
 aplicación cuando
@@ -136,5 +147,12 @@ pero también se puede implementar manualmente con
 el botón "Deploy Branch":
 
 <img src="https://github.com/salamancacm/QuasarFireRepository/blob/main/img/HerokuView.jpg" alt="Heroku View">
+
+### Despliegue Local
+Para desplegar y probar la aplicación localmente hay que importar el proyecto en el IDE de su preferencia
+y correr la clase QuasarFireOperationApplication.
+
+Para probar que esté funcionando usar http://localhost:8080/ como endpoint y completar la url tomando como ejemplo
+las mostradas en la sección de /Controller
 
 
