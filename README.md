@@ -48,6 +48,11 @@ Ejemplo request:<br>
 ]<br>
 }<br>
 </code>
+<br>
+<br>
+Diagrama de secuencia
+<br>
+<img src="https://github.com/salamancacm/QuasarFireRepository/blob/main/img/RebelCommunicationController_topSecret.png" alt="Diagrama de secuencia de /topsecret">
 
 * #### (POST) https://quasar-fire-operation-app.herokuapp.com/api/topsecret_split/{NOMBRE_SATELITE}
 La aplicación analiza los mensajes entrantes divididos 
@@ -64,6 +69,11 @@ Ejemplo request
 "message": ["este", "", "", "mensaje", ""]<br>
 }<br>
 </code>
+<br>
+<br>
+Diagrama de secuencia
+<br>
+<img src="https://github.com/salamancacm/QuasarFireRepository/blob/main/img/RebelCommunicationController_topSecretSplit_POST.png" alt="Diagrama de secuencia de /topsecret_split/{NOMBRE_SATELITE}">
 
 * #### (GET) https://quasar-fire-operation-app.herokuapp.com/api/topsecret_split
 Este endpoint analiza los datos recibidos por el endpoint
@@ -71,14 +81,23 @@ Este endpoint analiza los datos recibidos por el endpoint
 , el mensaje completo y la posición de la nave. 
 Si el mensaje no se puede descifrar, 
 devolverá un 404.
+<br>
+<br>
+Diagrama de secuencia
+<br>
+<img src="https://github.com/salamancacm/QuasarFireRepository/blob/main/img/RebelCommunicationController_getCargoLocation.png" alt="Diagrama de secuencia de /topsecret_split">
 
 * #### (GET) https://quasar-fire-operation-app.herokuapp.com/api/topsecret_split/clear
 Dado que la aplicación no tiene una base de datos, 
 los datos recibidos por /topsecret_split/{NOMBRE_SATELITE}
 se almacenan en memoria y deben borrarse para poder 
 descifrar los nuevos mensajes. 
-Este endpoint borra el mensaje anterior y prepara la a
-plicación para nuevos mensajes entrantes.
+Este endpoint borra el mensaje anterior y prepara la aplicación para nuevos mensajes entrantes.
+<br>
+<br>
+Diagrama de secuencia
+<br>
+<img src="https://github.com/salamancacm/QuasarFireRepository/blob/main/img/RebelCommunicationController_clearCargoHistory.png" alt="Diagrama de secuencia de /topsecret_split/clear">
 
 * #### /Exception
 El paquete de excepciones contiene todas las excepciones 
@@ -111,7 +130,7 @@ conecté el proyecto a este repositorio de github.
 
 Heroku implementará y actualizará automáticamente la 
 aplicación cuando
-se haya realizado un nuevo commit 
+se realice un nuevo commit 
 en el branch [main] del repositorio, 
 pero también se puede implementar manualmente con 
 el botón "Deploy Branch":
