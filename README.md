@@ -1,5 +1,4 @@
 # Operación Fuego de Quasar - MercadoLibre
-Usenlo como gusten ;)
 
 ### Introducción
 Este proyecto ha sido creado usando Java Spring Boot y 
